@@ -132,7 +132,7 @@ int main(int argc, char *argv[]) {
     } else if (!strcmp(arg, "-s")) {
       mostrar_solucao = true;
     } else if (!strcmp(arg, "-i")) {
-      vertice_inicial = strtoul(argv[++i], nullptr, 10) - 1;
+      vertice_inicial = (unsigned)strtoul(argv[++i], nullptr, 10) - 1;
     } else {
       std::cerr << TEXTO_ERRO << std::flush;
       return EXIT_FAILURE;
