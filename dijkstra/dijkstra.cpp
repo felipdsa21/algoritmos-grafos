@@ -17,8 +17,8 @@ const char TEXTO_AJUDA[] =
 const char TEXTO_ERRO[] = "Parâmetro desconhecido (use -h para ver os disponíveis)";
 
 /* Tipos */
-typedef std::pair<unsigned, unsigned> UnsignedPair;
-typedef std::vector<std::vector<UnsignedPair>> Grafo;
+typedef std::pair<unsigned, unsigned> ParInteiros;
+typedef std::vector<std::vector<ParInteiros>> Grafo;
 
 typedef struct Dados {
   std::vector<int> prev;
@@ -31,44 +31,41 @@ Grafo ler_grafo(std::istream *in) {
   unsigned qtd_vertices, qtd_arestas, u, v, w, i;
 
   *in >> qtd_vertices >> qtd_arestas;
-  Grafo grafo(qtd_vertices, std::vector<UnsignedPair>());
+  Grafo grafo(qtd_vertices, std::vector<ParInteiros>());
 
   for (i = 0; i < qtd_arestas; i++) {
     *in >> u >> v >> w;
     u--;
     v--;
-    grafo[u].push_back({v, w});
-    grafo[v].push_back({u, w});
+    grafo[u].push_back({w, v});
+    grafo[v].push_back({w, u});
   }
 
   return grafo;
 }
 
-Dados djikstra(Grafo &grafo, unsigned s) {
-  unsigned u, v, w, i;
+Dados dijkstra(Grafo &grafo, unsigned s) {
+  unsigned u, v, w, nova_dist;
 
-  std::vector<unsigned> dist(grafo.size(), INT_MAX);
+  std::vector<unsigned> dist(grafo.size(), UINT_MAX);
   std::vector<int> prev(grafo.size(), -1);
-  std::priority_queue<UnsignedPair, std::vector<UnsignedPair>, std::greater<UnsignedPair>> heap;
+  std::priority_queue<ParInteiros, std::vector<ParInteiros>, std::greater<ParInteiros>> heap;
 
   dist[s] = 0;
-
-  for (i = 0; i < grafo.size(); i++) {
-    heap.push({dist[i], i});
-  }
+  heap.push({dist[s], s});
 
   while (!heap.empty()) {
     u = heap.top().second;
     heap.pop();
 
-    for (i = 0; i < grafo[u].size(); i++) {
-      UnsignedPair aresta = grafo[u][i];
-      v = aresta.first;
-      w = aresta.second;
+    for (ParInteiros aresta : grafo[u]) {
+      v = aresta.second;
+      w = aresta.first;
+      nova_dist = dist[u] + w;
 
-      if (dist[v] > dist[u] + w) {
-        dist[v] = dist[u] + w;
-        prev[v] = u;
+      if (dist[v] > nova_dist) {
+        dist[v] = nova_dist;
+        prev[v] = (int)u;
         heap.push({dist[v], v});
       }
     }
@@ -97,7 +94,7 @@ void configurar_terminal() {
 
 int main(int argc, char *argv[]) {
   char *caminho_entrada = nullptr, *caminho_saida = nullptr, *arg;
-  unsigned vertice_inicial = 1;
+  unsigned vertice_inicial = 0;
   int i;
 
   configurar_terminal();
@@ -112,7 +109,7 @@ int main(int argc, char *argv[]) {
     } else if (!strcmp(arg, "-f")) {
       caminho_entrada = argv[++i];
     } else if (!strcmp(arg, "-i")) {
-      vertice_inicial = strtoul(argv[++i], nullptr, 10);
+      vertice_inicial = strtoul(argv[++i], nullptr, 10) - 1;
     } else {
       std::cerr << TEXTO_ERRO << std::flush;
       return EXIT_FAILURE;
@@ -134,7 +131,7 @@ int main(int argc, char *argv[]) {
   }
 
   Grafo grafo = ler_grafo(entrada);
-  Dados dados = djikstra(grafo, vertice_inicial - 1);
+  Dados dados = dijkstra(grafo, vertice_inicial);
   imprimir_saida(saida, dados);
 
   return EXIT_SUCCESS;

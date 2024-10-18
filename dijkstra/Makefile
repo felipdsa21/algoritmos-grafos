@@ -3,13 +3,14 @@ NAME := dijkstra
 TARGET := $(shell $(CXX) -dumpmachine)
 WINDOWS := $(strip $(foreach W,msys w64 windows,$(findstring -$W-,-$(TARGET)-)))
 BINEXT := $(if $(WINDOWS),.exe,)
+OUT_FILE ?= $(NAME)$(BINEXT)
 
-ERROR_CXXFLAGS := -Wall -Wconversion -Werror -Wextra -Wpedantic -Wvla
+ERROR_CXXFLAGS := -Wall -Wconversion -Werror -Wextra -Wpedantic -Wsign-conversion -Wvla
 CXXFLAGS := $(CXXFLAGS) $(ERROR_CXXFLAGS)
 
 .PHONY: build
 
-build: $(NAME)$(BINEXT)
+build: $(OUT_FILE)
 
-$(NAME)$(BINEXT): $(NAME).cpp
+$(OUT_FILE): $(NAME).cpp
 	$(CXX) $(CXXFLAGS) -o $@ $^
