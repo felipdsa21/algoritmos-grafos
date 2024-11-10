@@ -20,10 +20,10 @@ const char TEXTO_ERRO[] = "Parâmetro desconhecido (use -h para ver os disponív
 typedef std::pair<unsigned, unsigned> ParInteiros;
 typedef std::vector<std::vector<ParInteiros>> Grafo;
 
-typedef struct Dados {
+typedef struct Resultado {
   std::vector<int> prev;
   std::vector<unsigned> dist;
-} Dados;
+} Resultado;
 
 /* Funções */
 
@@ -44,7 +44,7 @@ Grafo ler_grafo(std::istream *in) {
   return grafo;
 }
 
-Dados dijkstra(const Grafo &grafo, unsigned s) {
+Resultado dijkstra(const Grafo &grafo, unsigned s) {
   unsigned u, v, w, nova_dist;
 
   std::vector<unsigned> dist(grafo.size(), UINT_MAX);
@@ -74,11 +74,12 @@ Dados dijkstra(const Grafo &grafo, unsigned s) {
   return {prev, dist};
 }
 
-void imprimir_saida(std::ostream *saida, const Dados &dados) {
+void imprimir_resultado(std::ostream *saida, const Resultado &resultado) {
   unsigned u;
 
-  for (u = 0; u < dados.dist.size(); u++) {
-    *saida << u + 1 << ":" << dados.dist[u] << " ";
+  const std::vector<unsigned> &dist = resultado.dist;
+  for (u = 0; u < dist.size(); u++) {
+    *saida << u + 1 << ":" << dist[u] << " ";
   }
 
   *saida << std::endl;
@@ -131,8 +132,8 @@ int main(int argc, char *argv[]) {
   }
 
   Grafo grafo = ler_grafo(entrada);
-  Dados dados = dijkstra(grafo, vertice_inicial);
-  imprimir_saida(saida, dados);
+  Resultado resultado = dijkstra(grafo, vertice_inicial);
+  imprimir_resultado(saida, resultado);
 
   return EXIT_SUCCESS;
 }

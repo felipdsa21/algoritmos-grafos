@@ -27,9 +27,9 @@ typedef struct Grafo {
   std::vector<Aresta> arestas;
 } Grafo;
 
-typedef struct Dados {
+typedef struct Resultado {
   std::set<Aresta> T;
-} Dados;
+} Resultado;
 
 /* Funções */
 
@@ -69,7 +69,7 @@ unsigned find(std::vector<unsigned> &pai, unsigned x) {
   return pai[x];
 }
 
-Dados kruskal(const Grafo &grafo) {
+Resultado kruskal(const Grafo &grafo) {
   unsigned u, v, find_u, find_v;
 
   std::vector<Aresta> arestas(grafo.arestas);
@@ -100,18 +100,18 @@ Dados kruskal(const Grafo &grafo) {
   return {T};
 }
 
-void imprimir_saida(std::ostream *saida, const Dados &dados, bool mostrar_solucao) {
+void imprimir_resultado(std::ostream *saida, const Resultado &resultado, bool mostrar_solucao) {
   int custo_total = 0;
   unsigned u, v;
 
   if (mostrar_solucao) {
-    for (Aresta aresta : dados.T) {
+    for (Aresta aresta : resultado.T) {
       u = std::get<1>(aresta);
       v = std::get<2>(aresta);
       *saida << "(" << u + 1 << "," << v + 1 << ") ";
     }
   } else {
-    for (Aresta aresta : dados.T) {
+    for (Aresta aresta : resultado.T) {
       custo_total += std::get<0>(aresta);
     }
 
@@ -168,8 +168,8 @@ int main(int argc, char *argv[]) {
   }
 
   Grafo grafo = ler_grafo(entrada);
-  Dados dados = kruskal(grafo);
-  imprimir_saida(saida, dados, mostrar_solucao);
+  Resultado resultado = kruskal(grafo);
+  imprimir_resultado(saida, resultado, mostrar_solucao);
 
   return EXIT_SUCCESS;
 }

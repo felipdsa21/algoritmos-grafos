@@ -21,10 +21,10 @@ const char TEXTO_ERRO[] = "Parâmetro desconhecido (use -h para ver os disponív
 typedef std::pair<int, unsigned> ParInteiros;
 typedef std::vector<std::vector<ParInteiros>> Grafo;
 
-typedef struct Dados {
+typedef struct Resultado {
   std::vector<int> prev;
   std::vector<int> custo;
-} Dados;
+} Resultado;
 
 /* Funções */
 
@@ -46,7 +46,7 @@ Grafo ler_grafo(std::istream *in) {
   return grafo;
 }
 
-Dados prim(const Grafo &grafo, unsigned v0) {
+Resultado prim(const Grafo &grafo, unsigned v0) {
   unsigned u, v;
   int w;
 
@@ -83,19 +83,23 @@ Dados prim(const Grafo &grafo, unsigned v0) {
   return {prev, custo};
 }
 
-void imprimir_saida(std::ostream *saida, const Dados &dados, bool mostrar_solucao) {
+void imprimir_resultado(std::ostream *saida, const Resultado &resultado, bool mostrar_solucao) {
   int custo_total = 0;
   unsigned v;
 
   if (mostrar_solucao) {
-    for (v = 0; v < dados.prev.size(); v++) {
-      if (dados.prev[v] != -1) {
-        *saida << "(" << v + 1 << "," << dados.prev[v] + 1 << ") ";
+    const std::vector<int> &prev = resultado.prev;
+
+    for (v = 0; v < prev.size(); v++) {
+      if (prev[v] != -1) {
+        *saida << "(" << v + 1 << "," << prev[v] + 1 << ") ";
       }
     }
   } else {
-    for (v = 0; v < dados.custo.size(); v++) {
-      custo_total += dados.custo[v];
+    const std::vector<int> &custo = resultado.custo;
+
+    for (v = 0; v < custo.size(); v++) {
+      custo_total += custo[v];
     }
 
     *saida << custo_total;
@@ -154,8 +158,8 @@ int main(int argc, char *argv[]) {
   }
 
   Grafo grafo = ler_grafo(entrada);
-  Dados dados = prim(grafo, vertice_inicial);
-  imprimir_saida(saida, dados, mostrar_solucao);
+  Resultado resultado = prim(grafo, vertice_inicial);
+  imprimir_resultado(saida, resultado, mostrar_solucao);
 
   return EXIT_SUCCESS;
 }
