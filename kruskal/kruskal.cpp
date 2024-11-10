@@ -69,7 +69,7 @@ unsigned find(std::vector<unsigned> &pai, unsigned x) {
   return pai[x];
 }
 
-Dados kruskal(Grafo &grafo) {
+Dados kruskal(const Grafo &grafo) {
   unsigned u, v, find_u, find_v;
 
   std::vector<Aresta> arestas(grafo.arestas);
@@ -100,7 +100,7 @@ Dados kruskal(Grafo &grafo) {
   return {T};
 }
 
-void imprimir_saida(std::ostream *saida, Dados &dados, bool mostrar_solucao) {
+void imprimir_saida(std::ostream *saida, const Dados &dados, bool mostrar_solucao) {
   int custo_total = 0;
   unsigned u, v;
 

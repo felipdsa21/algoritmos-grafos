@@ -46,7 +46,7 @@ Grafo ler_grafo(std::istream *in) {
   return grafo;
 }
 
-Dados prim(Grafo &grafo, unsigned v0) {
+Dados prim(const Grafo &grafo, unsigned v0) {
   unsigned u, v;
   int w;
 
@@ -83,7 +83,7 @@ Dados prim(Grafo &grafo, unsigned v0) {
   return {prev, custo};
 }
 
-void imprimir_saida(std::ostream *saida, Dados &dados, bool mostrar_solucao) {
+void imprimir_saida(std::ostream *saida, const Dados &dados, bool mostrar_solucao) {
   int custo_total = 0;
   unsigned v;
 

@@ -44,7 +44,7 @@ Grafo ler_grafo(std::istream *in) {
   return grafo;
 }
 
-Dados dijkstra(Grafo &grafo, unsigned s) {
+Dados dijkstra(const Grafo &grafo, unsigned s) {
   unsigned u, v, w, nova_dist;
 
   std::vector<unsigned> dist(grafo.size(), UINT_MAX);
@@ -74,7 +74,7 @@ Dados dijkstra(Grafo &grafo, unsigned s) {
   return {prev, dist};
 }
 
-void imprimir_saida(std::ostream *saida, Dados &dados) {
+void imprimir_saida(std::ostream *saida, const Dados &dados) {
   unsigned u;
 
   for (u = 0; u < dados.dist.size(); u++) {
