@@ -1,5 +1,4 @@
 #include <algorithm>
-#include <climits>
 #include <clocale>
 #include <cstring>
 #include <fstream>

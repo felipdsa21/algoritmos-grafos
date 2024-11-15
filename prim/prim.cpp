@@ -1,8 +1,8 @@
-#include <climits>
 #include <clocale>
 #include <cstring>
 #include <fstream>
 #include <iostream>
+#include <limits>
 #include <queue>
 #include <string>
 #include <vector>
@@ -49,7 +49,7 @@ Grafo ler_grafo(std::istream *in) {
 Resultado prim(const Grafo &grafo, int v0) {
   int u, v, w;
 
-  std::vector<int> custo(grafo.size(), INT_MAX);
+  std::vector<int> custo(grafo.size(), std::numeric_limits<int>::max());
   std::vector<int> prev(grafo.size(), -1);
   std::vector<bool> visitado(grafo.size(), false);
   std::priority_queue<ParInt, std::vector<ParInt>, std::greater<ParInt>> heap;
@@ -133,7 +133,7 @@ int main(int argc, char *argv[]) {
     } else if (!strcmp(arg, "-s")) {
       mostrar_solucao = true;
     } else if (!strcmp(arg, "-i")) {
-      vertice_inicial = std::stoul(argv[++i]) - 1;
+      vertice_inicial = (int)std::stoul(argv[++i]) - 1;
     } else {
       std::cerr << TEXTO_ERRO << std::flush;
       return EXIT_FAILURE;

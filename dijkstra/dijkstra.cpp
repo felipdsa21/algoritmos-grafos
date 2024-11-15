@@ -1,8 +1,8 @@
-#include <climits>
 #include <clocale>
 #include <cstring>
 #include <fstream>
 #include <iostream>
+#include <limits>
 #include <queue>
 #include <string>
 #include <vector>
@@ -48,7 +48,7 @@ Grafo ler_grafo(std::istream *in) {
 Resultado dijkstra(const Grafo &grafo, int s) {
   int u, v, w, nova_dist;
 
-  std::vector<int> dist(grafo.size(), INT_MAX);
+  std::vector<int> dist(grafo.size(), std::numeric_limits<int>::max());
   std::vector<int> prev(grafo.size(), -1);
   std::priority_queue<ParInt, std::vector<ParInt>, std::greater<ParInt>> heap;
 
@@ -80,7 +80,7 @@ void imprimir_resultado(std::ostream *saida, const Resultado &resultado) {
 
   const std::vector<int> &dist = resultado.dist;
   for (u = 0; u < (int)dist.size(); u++) {
-    d = dist[u] == UINT_MAX ? -1 : dist[u];
+    d = dist[u] == std::numeric_limits<int>::max() ? -1 : dist[u];
     *saida << u + 1 << ":" << d << " ";
   }
 
@@ -111,7 +111,7 @@ int main(int argc, char *argv[]) {
     } else if (!strcmp(arg, "-f")) {
       caminho_entrada = argv[++i];
     } else if (!strcmp(arg, "-i")) {
-      vertice_inicial = std::stoul(argv[++i]) - 1;
+      vertice_inicial = (int)std::stoul(argv[++i]) - 1;
     } else {
       std::cerr << TEXTO_ERRO << std::flush;
       return EXIT_FAILURE;
