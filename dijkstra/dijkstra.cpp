@@ -17,18 +17,18 @@ const char TEXTO_AJUDA[] =
 const char TEXTO_ERRO[] = "Parâmetro desconhecido (use -h para ver os disponíveis)";
 
 /* Tipos */
-typedef std::pair<unsigned, unsigned> ParInt;
+typedef std::pair<int, int> ParInt;
 typedef std::vector<std::vector<ParInt>> Grafo;
 
 typedef struct Resultado {
   std::vector<int> prev;
-  std::vector<unsigned> dist;
+  std::vector<int> dist;
 } Resultado;
 
 /* Funções */
 
 Grafo ler_grafo(std::istream *in) {
-  unsigned qtd_vertices, qtd_arestas, u, v, w, i;
+  int qtd_vertices, qtd_arestas, u, v, w, i;
 
   *in >> qtd_vertices >> qtd_arestas;
   Grafo grafo(qtd_vertices, std::vector<ParInt>());
@@ -44,10 +44,10 @@ Grafo ler_grafo(std::istream *in) {
   return grafo;
 }
 
-Resultado dijkstra(const Grafo &grafo, unsigned s) {
-  unsigned u, v, w, nova_dist;
+Resultado dijkstra(const Grafo &grafo, int s) {
+  int u, v, w, nova_dist;
 
-  std::vector<unsigned> dist(grafo.size(), UINT_MAX);
+  std::vector<int> dist(grafo.size(), INT_MAX);
   std::vector<int> prev(grafo.size(), -1);
   std::priority_queue<ParInt, std::vector<ParInt>, std::greater<ParInt>> heap;
 
@@ -65,7 +65,7 @@ Resultado dijkstra(const Grafo &grafo, unsigned s) {
 
       if (dist[v] > nova_dist) {
         dist[v] = nova_dist;
-        prev[v] = (int)u;
+        prev[v] = u;
         heap.push({dist[v], v});
       }
     }
@@ -75,10 +75,10 @@ Resultado dijkstra(const Grafo &grafo, unsigned s) {
 }
 
 void imprimir_resultado(std::ostream *saida, const Resultado &resultado) {
-  unsigned u;
+  int u;
 
-  const std::vector<unsigned> &dist = resultado.dist;
-  for (u = 0; u < dist.size(); u++) {
+  const std::vector<int> &dist = resultado.dist;
+  for (u = 0; u < (int)dist.size(); u++) {
     *saida << u + 1 << ":" << dist[u] << " ";
   }
 
@@ -95,8 +95,7 @@ void configurar_terminal() {
 
 int main(int argc, char *argv[]) {
   char *caminho_entrada = nullptr, *caminho_saida = nullptr, *arg;
-  unsigned vertice_inicial = 0;
-  int i;
+  int vertice_inicial = 0, i;
 
   configurar_terminal();
 
@@ -110,7 +109,7 @@ int main(int argc, char *argv[]) {
     } else if (!strcmp(arg, "-f")) {
       caminho_entrada = argv[++i];
     } else if (!strcmp(arg, "-i")) {
-      vertice_inicial = (unsigned)strtoul(argv[++i], nullptr, 10) - 1;
+      vertice_inicial = strtoul(argv[++i], nullptr, 10) - 1;
     } else {
       std::cerr << TEXTO_ERRO << std::flush;
       return EXIT_FAILURE;

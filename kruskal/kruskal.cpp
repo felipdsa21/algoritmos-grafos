@@ -19,11 +19,11 @@ const char TEXTO_AJUDA[] =
 const char TEXTO_ERRO[] = "Parâmetro desconhecido (use -h para ver os disponíveis)";
 
 /* Tipos */
-typedef std::pair<int, unsigned> ParInt;
-typedef std::tuple<int, unsigned, unsigned> Aresta;
+typedef std::pair<int, int> ParInt;
+typedef std::tuple<int, int, int> Aresta;
 
 typedef struct Grafo {
-  unsigned qtd_vertices;
+  int qtd_vertices;
   std::vector<Aresta> arestas;
 } Grafo;
 
@@ -34,8 +34,7 @@ typedef struct Resultado {
 /* Funções */
 
 Grafo ler_grafo(std::istream *in) {
-  unsigned qtd_vertices, qtd_arestas, u, v, i;
-  int w;
+  int qtd_vertices, qtd_arestas, u, v, w, i;
 
   *in >> qtd_vertices >> qtd_arestas;
   std::vector<Aresta> arestas;
@@ -51,7 +50,7 @@ Grafo ler_grafo(std::istream *in) {
   return {qtd_vertices, arestas};
 }
 
-void union_(std::vector<unsigned> &pai, std::vector<unsigned> &rank, unsigned x, unsigned y) {
+void union_(std::vector<int> &pai, std::vector<int> &rank, int x, int y) {
   if (rank[x] >= rank[y]) {
     pai[y] = x;
     if (rank[x] == rank[y]) {
@@ -62,7 +61,7 @@ void union_(std::vector<unsigned> &pai, std::vector<unsigned> &rank, unsigned x,
   }
 }
 
-unsigned find(std::vector<unsigned> &pai, unsigned x) {
+int find(std::vector<int> &pai, int x) {
   if (pai[x] != x) {
     pai[x] = find(pai, pai[x]);
   }
@@ -70,11 +69,11 @@ unsigned find(std::vector<unsigned> &pai, unsigned x) {
 }
 
 Resultado kruskal(const Grafo &grafo) {
-  unsigned u, v, find_u, find_v;
+  int u, v, find_u, find_v;
 
   std::vector<Aresta> arestas(grafo.arestas);
-  std::vector<unsigned> pai(grafo.qtd_vertices);
-  std::vector<unsigned> rank(grafo.qtd_vertices, 0);
+  std::vector<int> pai(grafo.qtd_vertices);
+  std::vector<int> rank(grafo.qtd_vertices, 0);
   std::set<Aresta> T;
 
   std::sort(arestas.begin(), arestas.end());
@@ -101,8 +100,7 @@ Resultado kruskal(const Grafo &grafo) {
 }
 
 void imprimir_resultado(std::ostream *saida, const Resultado &resultado, bool mostrar_solucao) {
-  int custo_total = 0;
-  unsigned u, v;
+  int custo_total = 0, u, v;
 
   if (mostrar_solucao) {
     for (Aresta aresta : resultado.T) {

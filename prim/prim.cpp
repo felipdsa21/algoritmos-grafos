@@ -18,7 +18,7 @@ const char TEXTO_AJUDA[] =
 const char TEXTO_ERRO[] = "Parâmetro desconhecido (use -h para ver os disponíveis)";
 
 /* Tipos */
-typedef std::pair<int, unsigned> ParInt;
+typedef std::pair<int, int> ParInt;
 typedef std::vector<std::vector<ParInt>> Grafo;
 
 typedef struct Resultado {
@@ -29,8 +29,7 @@ typedef struct Resultado {
 /* Funções */
 
 Grafo ler_grafo(std::istream *in) {
-  unsigned qtd_vertices, qtd_arestas, u, v, i;
-  int w;
+  int qtd_vertices, qtd_arestas, u, v, w, i;
 
   *in >> qtd_vertices >> qtd_arestas;
   Grafo grafo(qtd_vertices, std::vector<ParInt>());
@@ -46,9 +45,8 @@ Grafo ler_grafo(std::istream *in) {
   return grafo;
 }
 
-Resultado prim(const Grafo &grafo, unsigned v0) {
-  unsigned u, v;
-  int w;
+Resultado prim(const Grafo &grafo, int v0) {
+  int u, v, w;
 
   std::vector<int> custo(grafo.size(), INT_MAX);
   std::vector<int> prev(grafo.size(), -1);
@@ -74,7 +72,7 @@ Resultado prim(const Grafo &grafo, unsigned v0) {
 
       if (!visitado[u] && custo[u] > w) {
         custo[u] = w;
-        prev[u] = (int)v;
+        prev[u] = v;
         heap.push({custo[u], u});
       }
     }
@@ -84,13 +82,12 @@ Resultado prim(const Grafo &grafo, unsigned v0) {
 }
 
 void imprimir_resultado(std::ostream *saida, const Resultado &resultado, bool mostrar_solucao) {
-  int custo_total = 0;
-  unsigned v;
+  int custo_total = 0, v;
 
   if (mostrar_solucao) {
     const std::vector<int> &prev = resultado.prev;
 
-    for (v = 0; v < prev.size(); v++) {
+    for (v = 0; v < (int)prev.size(); v++) {
       if (prev[v] != -1) {
         *saida << "(" << v + 1 << "," << prev[v] + 1 << ") ";
       }
@@ -98,7 +95,7 @@ void imprimir_resultado(std::ostream *saida, const Resultado &resultado, bool mo
   } else {
     const std::vector<int> &custo = resultado.custo;
 
-    for (v = 0; v < custo.size(); v++) {
+    for (v = 0; v < (int)custo.size(); v++) {
       custo_total += custo[v];
     }
 
@@ -118,7 +115,7 @@ void configurar_terminal() {
 
 int main(int argc, char *argv[]) {
   char *caminho_entrada = nullptr, *caminho_saida = nullptr, *arg;
-  unsigned vertice_inicial = 0;
+  int vertice_inicial = 0;
   bool mostrar_solucao = false;
   int i;
 
@@ -136,7 +133,7 @@ int main(int argc, char *argv[]) {
     } else if (!strcmp(arg, "-s")) {
       mostrar_solucao = true;
     } else if (!strcmp(arg, "-i")) {
-      vertice_inicial = (unsigned)strtoul(argv[++i], nullptr, 10) - 1;
+      vertice_inicial = strtoul(argv[++i], nullptr, 10) - 1;
     } else {
       std::cerr << TEXTO_ERRO << std::flush;
       return EXIT_FAILURE;
