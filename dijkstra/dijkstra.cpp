@@ -4,6 +4,7 @@
 #include <fstream>
 #include <iostream>
 #include <queue>
+#include <string>
 #include <vector>
 
 /* Mensagens*/
@@ -75,11 +76,12 @@ Resultado dijkstra(const Grafo &grafo, int s) {
 }
 
 void imprimir_resultado(std::ostream *saida, const Resultado &resultado) {
-  int u;
+  int u, d;
 
   const std::vector<int> &dist = resultado.dist;
   for (u = 0; u < (int)dist.size(); u++) {
-    *saida << u + 1 << ":" << dist[u] << " ";
+    d = dist[u] == UINT_MAX ? -1 : dist[u];
+    *saida << u + 1 << ":" << d << " ";
   }
 
   *saida << std::endl;
@@ -109,7 +111,7 @@ int main(int argc, char *argv[]) {
     } else if (!strcmp(arg, "-f")) {
       caminho_entrada = argv[++i];
     } else if (!strcmp(arg, "-i")) {
-      vertice_inicial = strtoul(argv[++i], nullptr, 10) - 1;
+      vertice_inicial = std::stoul(argv[++i]) - 1;
     } else {
       std::cerr << TEXTO_ERRO << std::flush;
       return EXIT_FAILURE;

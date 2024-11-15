@@ -4,6 +4,7 @@
 #include <fstream>
 #include <iostream>
 #include <queue>
+#include <string>
 #include <vector>
 
 /* Mensagens*/
@@ -115,9 +116,8 @@ void configurar_terminal() {
 
 int main(int argc, char *argv[]) {
   char *caminho_entrada = nullptr, *caminho_saida = nullptr, *arg;
-  int vertice_inicial = 0;
+  int vertice_inicial = 0, i;
   bool mostrar_solucao = false;
-  int i;
 
   configurar_terminal();
 
@@ -133,7 +133,7 @@ int main(int argc, char *argv[]) {
     } else if (!strcmp(arg, "-s")) {
       mostrar_solucao = true;
     } else if (!strcmp(arg, "-i")) {
-      vertice_inicial = strtoul(argv[++i], nullptr, 10) - 1;
+      vertice_inicial = std::stoul(argv[++i]) - 1;
     } else {
       std::cerr << TEXTO_ERRO << std::flush;
       return EXIT_FAILURE;
