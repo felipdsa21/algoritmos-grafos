@@ -7,7 +7,7 @@ if ! [ -x "$bat_dir/agm" ]; then
   g++ -o "$bat_dir/agm" "$bat_dir/agm.cpp"
 fi
 
-for name in dijkstra kruskal prim; do
+for name in dijkstra kosaraju kruskal prim; do
   OUT_FILE="$bat_dir/$name.bin" make -C $name
 done
 
