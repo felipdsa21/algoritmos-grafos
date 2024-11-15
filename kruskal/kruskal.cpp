@@ -19,7 +19,7 @@ const char TEXTO_AJUDA[] =
 const char TEXTO_ERRO[] = "Parâmetro desconhecido (use -h para ver os disponíveis)";
 
 /* Tipos */
-typedef std::pair<int, unsigned> ParInteiros;
+typedef std::pair<int, unsigned> ParInt;
 typedef std::tuple<int, unsigned, unsigned> Aresta;
 
 typedef struct Grafo {

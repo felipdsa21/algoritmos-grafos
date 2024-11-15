@@ -18,8 +18,8 @@ const char TEXTO_AJUDA[] =
 const char TEXTO_ERRO[] = "Parâmetro desconhecido (use -h para ver os disponíveis)";
 
 /* Tipos */
-typedef std::pair<int, unsigned> ParInteiros;
-typedef std::vector<std::vector<ParInteiros>> Grafo;
+typedef std::pair<int, unsigned> ParInt;
+typedef std::vector<std::vector<ParInt>> Grafo;
 
 typedef struct Resultado {
   std::vector<int> prev;
@@ -33,7 +33,7 @@ Grafo ler_grafo(std::istream *in) {
   int w;
 
   *in >> qtd_vertices >> qtd_arestas;
-  Grafo grafo(qtd_vertices, std::vector<ParInteiros>());
+  Grafo grafo(qtd_vertices, std::vector<ParInt>());
 
   for (i = 0; i < qtd_arestas; i++) {
     *in >> u >> v >> w;
@@ -53,7 +53,7 @@ Resultado prim(const Grafo &grafo, unsigned v0) {
   std::vector<int> custo(grafo.size(), INT_MAX);
   std::vector<int> prev(grafo.size(), -1);
   std::vector<bool> visitado(grafo.size(), false);
-  std::priority_queue<ParInteiros, std::vector<ParInteiros>, std::greater<ParInteiros>> heap;
+  std::priority_queue<ParInt, std::vector<ParInt>, std::greater<ParInt>> heap;
 
   custo[v0] = 0;
   heap.push({custo[v0], v0});
@@ -68,7 +68,7 @@ Resultado prim(const Grafo &grafo, unsigned v0) {
       visitado[v] = true;
     }
 
-    for (ParInteiros aresta : grafo[v]) {
+    for (ParInt aresta : grafo[v]) {
       u = aresta.second;
       w = aresta.first;
 

@@ -17,8 +17,8 @@ const char TEXTO_AJUDA[] =
 const char TEXTO_ERRO[] = "Parâmetro desconhecido (use -h para ver os disponíveis)";
 
 /* Tipos */
-typedef std::pair<unsigned, unsigned> ParInteiros;
-typedef std::vector<std::vector<ParInteiros>> Grafo;
+typedef std::pair<unsigned, unsigned> ParInt;
+typedef std::vector<std::vector<ParInt>> Grafo;
 
 typedef struct Resultado {
   std::vector<int> prev;
@@ -31,7 +31,7 @@ Grafo ler_grafo(std::istream *in) {
   unsigned qtd_vertices, qtd_arestas, u, v, w, i;
 
   *in >> qtd_vertices >> qtd_arestas;
-  Grafo grafo(qtd_vertices, std::vector<ParInteiros>());
+  Grafo grafo(qtd_vertices, std::vector<ParInt>());
 
   for (i = 0; i < qtd_arestas; i++) {
     *in >> u >> v >> w;
@@ -49,7 +49,7 @@ Resultado dijkstra(const Grafo &grafo, unsigned s) {
 
   std::vector<unsigned> dist(grafo.size(), UINT_MAX);
   std::vector<int> prev(grafo.size(), -1);
-  std::priority_queue<ParInteiros, std::vector<ParInteiros>, std::greater<ParInteiros>> heap;
+  std::priority_queue<ParInt, std::vector<ParInt>, std::greater<ParInt>> heap;
 
   dist[s] = 0;
   heap.push({dist[s], s});
@@ -58,7 +58,7 @@ Resultado dijkstra(const Grafo &grafo, unsigned s) {
     u = heap.top().second;
     heap.pop();
 
-    for (ParInteiros aresta : grafo[u]) {
+    for (ParInt aresta : grafo[u]) {
       v = aresta.second;
       w = aresta.first;
       nova_dist = dist[u] + w;
