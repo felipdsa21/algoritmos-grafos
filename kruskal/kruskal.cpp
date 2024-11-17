@@ -9,13 +9,17 @@
 
 /* Mensagens*/
 
-const char TEXTO_AJUDA[] =
+const char MSG_AJUDA[] =
+  "Parâmetros disponíveis:\n"
   "-h           : mostra o help\n"
   "-o <arquivo> : redireciona a saida para o “arquivo”\n"
   "-f <arquivo> : indica o “arquivo” que contém o grafo de entrada\n"
   "-s           : mostra a solução\n";
 
-const char TEXTO_ERRO[] = "Parâmetro desconhecido (use -h para ver os disponíveis)";
+
+const char MSG_NAO_ABRIU_ENTRADA[] = "Não foi possível abrir o arquivo de entrada\n";
+const char MSG_NAO_ABRIU_SAIDA[] = "Não foi possível abrir o arquivo de saída\n";
+const char MSG_PARAMETRO_DESCONHECIDO[] = "Parâmetro desconhecido (use -h para ver os disponíveis)\n";
 
 /* Tipos */
 typedef std::tuple<int, int, int> Aresta;
@@ -136,7 +140,7 @@ int main(int argc, char *argv[]) {
   for (i = 1; i < argc; i++) {
     arg = argv[i];
     if (!strcmp(arg, "-h")) {
-      std::cout << TEXTO_AJUDA << std::flush;
+      std::cout << MSG_AJUDA << std::flush;
       return EXIT_SUCCESS;
     } else if (!strcmp(arg, "-o")) {
       caminho_saida = argv[++i];
@@ -145,7 +149,7 @@ int main(int argc, char *argv[]) {
     } else if (!strcmp(arg, "-s")) {
       mostrar_solucao = true;
     } else {
-      std::cerr << TEXTO_ERRO << std::flush;
+      std::cerr << MSG_PARAMETRO_DESCONHECIDO << std::flush;
       return EXIT_FAILURE;
     }
   }
@@ -154,6 +158,11 @@ int main(int argc, char *argv[]) {
   std::ifstream arquivo_entrada;
   if (caminho_entrada) {
     arquivo_entrada.open(caminho_entrada);
+    if (arquivo_entrada.fail()) {
+      std::cerr << MSG_NAO_ABRIU_ENTRADA << std::flush;
+      return EXIT_FAILURE;
+    }
+
     entrada = &arquivo_entrada;
   }
 
@@ -161,6 +170,11 @@ int main(int argc, char *argv[]) {
   std::ofstream arquivo_saida;
   if (caminho_saida) {
     arquivo_saida.open(caminho_saida);
+    if (arquivo_saida.fail()) {
+      std::cerr << MSG_NAO_ABRIU_SAIDA << std::flush;
+      return EXIT_FAILURE;
+    }
+
     saida = &arquivo_saida;
   }
 
