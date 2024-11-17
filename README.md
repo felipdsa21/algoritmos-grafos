@@ -1,5 +1,6 @@
 # Projeto de Teoria dos grafos
 - Implementação dos algoritmos de Dijkstra, Kosaraju-Sharir, Kruskal e Prim.
+- Implementação do algoritmo de Bellman-Ford.
 
 ## Requirementos
 - Ambiente de desenvolvimento WSL, MSYS2 ou Linux.
