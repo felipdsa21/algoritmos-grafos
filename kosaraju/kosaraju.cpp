@@ -28,7 +28,7 @@ Grafo ler_grafo(std::istream *in) {
   int qtd_vertices, qtd_arestas, u, v, i;
 
   *in >> qtd_vertices >> qtd_arestas;
-  Grafo grafo(qtd_vertices, std::vector<int>());
+  Grafo grafo(qtd_vertices);
 
   for (i = 0; i < qtd_arestas; i++) {
     *in >> u >> v;
@@ -41,8 +41,8 @@ Grafo ler_grafo(std::istream *in) {
 }
 
 Grafo inverter_grafo(const Grafo &grafo) {
-  Grafo invertido(grafo.size());
   int u;
+  Grafo invertido(grafo.size());
 
   for (u = 0; u < (int)grafo.size(); u++) {
     for (int v : grafo[u]) {
@@ -77,6 +77,8 @@ void dfs_rev(const Grafo &grafo, int v, std::vector<bool> &visitado, std::vector
 }
 
 Resultado kosaraju(const Grafo &grafo) {
+  int v;
+
   Grafo invertido = inverter_grafo(grafo);
 
   std::vector<bool> visitado(grafo.size(), false);
@@ -92,7 +94,7 @@ Resultado kosaraju(const Grafo &grafo) {
   std::vector<std::vector<int>> componentes;
 
   while (!permutacao.empty()) {
-    int v = permutacao.top();
+    v = permutacao.top();
     permutacao.pop();
 
     if (!visitado[v]) {

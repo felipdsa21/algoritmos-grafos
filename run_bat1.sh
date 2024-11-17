@@ -1,15 +1,18 @@
 #!/bin/sh
 set -eu
 
-bat_dir=$(realpath Bat1)
+# Compilando algoritmos
 
-if ! [ -x "$bat_dir/agm" ]; then
-  g++ -o "$bat_dir/agm" "$bat_dir/agm.cpp"
+if ! [ -x Bat1/agm ]; then
+  g++ -o Bat1/agm Bat1/agm.cpp
 fi
 
 for name in dijkstra kosaraju kruskal prim; do
-  OUT_FILE="$bat_dir/$name.bin" make -C $name
+  OUT_DIR=../Bat1/ make -C $name
 done
 
-cd "$bat_dir"
-exec ./Bat1.sh
+# Executando Bat1
+(
+  cd Bat1
+  exec ./Bat1.sh
+)

@@ -22,7 +22,6 @@ typedef std::pair<int, int> ParInt;
 typedef std::vector<std::vector<ParInt>> Grafo;
 
 typedef struct Resultado {
-  std::vector<int> prev;
   std::vector<int> dist;
 } Resultado;
 
@@ -32,7 +31,7 @@ Grafo ler_grafo(std::istream *in) {
   int qtd_vertices, qtd_arestas, u, v, w, i;
 
   *in >> qtd_vertices >> qtd_arestas;
-  Grafo grafo(qtd_vertices, std::vector<ParInt>());
+  Grafo grafo(qtd_vertices);
 
   for (i = 0; i < qtd_arestas; i++) {
     *in >> u >> v >> w;
@@ -49,7 +48,6 @@ Resultado dijkstra(const Grafo &grafo, int s) {
   int u, v, w, nova_dist;
 
   std::vector<int> dist(grafo.size(), std::numeric_limits<int>::max());
-  std::vector<int> prev(grafo.size(), -1);
   std::priority_queue<ParInt, std::vector<ParInt>, std::greater<ParInt>> heap;
 
   dist[s] = 0;
@@ -66,13 +64,12 @@ Resultado dijkstra(const Grafo &grafo, int s) {
 
       if (dist[v] > nova_dist) {
         dist[v] = nova_dist;
-        prev[v] = u;
         heap.push({dist[v], v});
       }
     }
   }
 
-  return {prev, dist};
+  return {dist};
 }
 
 void imprimir_resultado(std::ostream *saida, const Resultado &resultado) {

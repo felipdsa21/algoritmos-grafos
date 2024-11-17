@@ -33,7 +33,7 @@ Grafo ler_grafo(std::istream *in) {
   int qtd_vertices, qtd_arestas, u, v, w, i;
 
   *in >> qtd_vertices >> qtd_arestas;
-  Grafo grafo(qtd_vertices, std::vector<ParInt>());
+  Grafo grafo(qtd_vertices);
 
   for (i = 0; i < qtd_arestas; i++) {
     *in >> u >> v >> w;

@@ -1,9 +1,5 @@
 NAME := dijkstra
-
-TARGET := $(shell $(CXX) -dumpmachine)
-WINDOWS := $(strip $(foreach W,msys w64 windows,$(findstring -$W-,-$(TARGET)-)))
-BINEXT := $(if $(WINDOWS),.exe,)
-OUT_FILE ?= $(NAME)$(BINEXT)
+OUT_FILE ?= $(OUT_DIR)$(NAME).bin
 
 ERROR_CXXFLAGS := -Wall -Wconversion -Wextra -Wno-sign-conversion -Wpedantic -Wvla
 CXXFLAGS := $(CXXFLAGS) $(ERROR_CXXFLAGS)

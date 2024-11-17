@@ -18,7 +18,6 @@ const char TEXTO_AJUDA[] =
 const char TEXTO_ERRO[] = "Parâmetro desconhecido (use -h para ver os disponíveis)";
 
 /* Tipos */
-typedef std::pair<int, int> ParInt;
 typedef std::tuple<int, int, int> Aresta;
 
 typedef struct Grafo {
@@ -71,13 +70,14 @@ Resultado kruskal(const Grafo &grafo) {
   int u, v, find_u, find_v;
 
   std::vector<Aresta> arestas(grafo.arestas);
-  std::vector<int> pai(grafo.qtd_vertices);
+  std::vector<int> pai;
   std::vector<int> rank(grafo.qtd_vertices, 0);
   std::set<Aresta> T;
 
   std::sort(arestas.begin(), arestas.end());
 
   // Make-set
+  pai.reserve(grafo.qtd_vertices);
   for (v = 0; v < grafo.qtd_vertices; v++) {
     pai[v] = v;
   }

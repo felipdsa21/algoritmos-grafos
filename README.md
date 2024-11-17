@@ -21,3 +21,7 @@ $ ./run_bat1.sh
 ```
 
 Os algoritmos do Bat1 serão compilados automaticamente.
+
+## Integrantes
+- Felipe da Silva Araújo
+- José Milton de Moraes Silva Neto
