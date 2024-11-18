@@ -7,20 +7,6 @@
 #include <string>
 #include <vector>
 
-/* Mensagens*/
-
-const char MSG_AJUDA[] =
-  "Parâmetros disponíveis:\n"
-  "-h           : mostra o help\n"
-  "-o <arquivo> : redireciona a saida para o “arquivo”\n"
-  "-f <arquivo> : indica o “arquivo” que contém o grafo de entrada\n"
-  "-s           : mostra a solução\n"
-  "-i           : vértice inicial (para o algoritmo de Prim)\n";
-
-const char MSG_NAO_ABRIU_ENTRADA[] = "Não foi possível abrir o arquivo de entrada\n";
-const char MSG_NAO_ABRIU_SAIDA[] = "Não foi possível abrir o arquivo de saída\n";
-const char MSG_PARAMETRO_DESCONHECIDO[] = "Parâmetro desconhecido (use -h para ver os disponíveis)\n";
-
 /* Tipos */
 typedef std::pair<int, int> ParInt;
 typedef std::vector<std::vector<ParInt>> Grafo;
@@ -127,7 +113,14 @@ int main(int argc, char *argv[]) {
   for (i = 1; i < argc; i++) {
     arg = argv[i];
     if (!strcmp(arg, "-h")) {
-      std::cout << MSG_AJUDA << std::flush;
+      const char msg[] =
+        "Parâmetros disponíveis:\n"
+        "-h           : mostra o help\n"
+        "-o <arquivo> : redireciona a saida para o “arquivo”\n"
+        "-f <arquivo> : indica o “arquivo” que contém o grafo de entrada\n"
+        "-s           : mostra a solução\n"
+        "-i           : vértice inicial (para o algoritmo de Prim)\n";
+      std::cout << msg << std::flush;
       return EXIT_SUCCESS;
     } else if (!strcmp(arg, "-o")) {
       caminho_saida = argv[++i];
@@ -138,7 +131,7 @@ int main(int argc, char *argv[]) {
     } else if (!strcmp(arg, "-i")) {
       vertice_inicial = (int)std::stoul(argv[++i]) - 1;
     } else {
-      std::cerr << MSG_PARAMETRO_DESCONHECIDO << std::flush;
+      std::cerr << "Parâmetro desconhecido (use -h para ver os disponíveis)" << std::endl;
       return EXIT_FAILURE;
     }
   }
@@ -148,7 +141,7 @@ int main(int argc, char *argv[]) {
   if (caminho_entrada) {
     arquivo_entrada.open(caminho_entrada);
     if (arquivo_entrada.fail()) {
-      std::cerr << MSG_NAO_ABRIU_ENTRADA << std::flush;
+      std::cerr << "Não foi possível abrir o arquivo de entrada" << std::endl;
       return EXIT_FAILURE;
     }
 
@@ -160,7 +153,7 @@ int main(int argc, char *argv[]) {
   if (caminho_saida) {
     arquivo_saida.open(caminho_saida);
     if (arquivo_saida.fail()) {
-      std::cerr << MSG_NAO_ABRIU_SAIDA << std::flush;
+      std::cerr << "Não foi possível abrir o arquivo de saída" << std::endl;
       return EXIT_FAILURE;
     }
 
