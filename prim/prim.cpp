@@ -36,7 +36,7 @@ Grafo ler_grafo(std::istream *in) {
 }
 
 Resultado prim(const Grafo &grafo, int v0) {
-  int u, v, w;
+  int v;
 
   std::vector<int> custo(grafo.size(), std::numeric_limits<int>::max());
   std::vector<int> prev(grafo.size(), -1);
@@ -56,10 +56,7 @@ Resultado prim(const Grafo &grafo, int v0) {
       visitado[v] = true;
     }
 
-    for (ParInt aresta : grafo[v]) {
-      u = aresta.second;
-      w = aresta.first;
-
+    for (auto [w, u] : grafo[v]) {
       if (!visitado[u] && custo[u] > w) {
         custo[u] = w;
         prev[u] = v;

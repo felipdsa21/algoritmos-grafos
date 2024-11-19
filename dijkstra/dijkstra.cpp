@@ -35,7 +35,7 @@ Grafo ler_grafo(std::istream *in) {
 }
 
 Resultado dijkstra(const Grafo &grafo, int s) {
-  int u, v, w, nova_dist;
+  int u, nova_dist;
 
   std::vector<int> dist(grafo.size(), std::numeric_limits<int>::max());
   std::priority_queue<ParInt, std::vector<ParInt>, std::greater<ParInt>> heap;
@@ -47,9 +47,7 @@ Resultado dijkstra(const Grafo &grafo, int s) {
     u = heap.top().second;
     heap.pop();
 
-    for (ParInt aresta : grafo[u]) {
-      v = aresta.second;
-      w = aresta.first;
+    for (auto [w, v] : grafo[u]) {
       nova_dist = dist[u] + w;
 
       if (dist[v] > nova_dist) {

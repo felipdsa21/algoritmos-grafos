@@ -40,17 +40,13 @@ Grafo ler_grafo(std::istream *in) {
 }
 
 Resultado bellman(const Grafo &grafo, int s) {
-  int u, v, w, l;
+  int l;
 
   std::vector<int> d(grafo.qtd_vertices, std::numeric_limits<int>::max());
   d[s] = 0;
 
   for (l = 0; l < grafo.qtd_vertices - 1; l++) {
-    for (Aresta aresta : grafo.arestas) {
-      w = std::get<0>(aresta);
-      u = std::get<1>(aresta);
-      v = std::get<2>(aresta);
-
+    for (auto [w, u, v] : grafo.arestas) {
       if (d[u] != std::numeric_limits<int>::max() && d[u] + w < d[v]) {
         d[v] = d[u] + w;
       }
