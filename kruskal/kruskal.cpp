@@ -69,7 +69,7 @@ Resultado kruskal(const Grafo &grafo) {
   // Make-set
   pai.reserve(grafo.qtd_vertices);
   for (v = 0; v < grafo.qtd_vertices; v++) {
-    pai[v] = v;
+    pai.push_back(v);
   }
 
   for (Aresta aresta : arestas) {
