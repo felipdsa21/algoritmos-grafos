@@ -11,8 +11,16 @@ for name in dijkstra kosaraju kruskal prim; do
   OUT_DIR=../Bat1/ make -C $name
 done
 
+OUT_DIR=../BatExtra/ make -C bellman
+
 # Executando Bat1
 (
   cd Bat1
   exec ./Bat1.sh
+)
+
+# Executando BatExtra
+(
+  cd BatExtra
+  exec ./BatExtra.sh
 )
